@@ -11,10 +11,22 @@ __LOGFILE__="/var/log/cloudflareddns.log"
 
 # CloudFlare Config
 __RECTYPE__="A"
-__RECID__=""
-__ZONE_ID__=""
+
+__ZONE_DOMAIN__=$(echo "${__HOSTNAME__}" | rev | cut -d '.' -f 1,2 | rev)
+__ZONE_ID__=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones?name=${__ZONE_DOMAIN__}" \
+  -H "X-Auth-Email: ${__USERNAME__}" \
+  -H "X-Auth-Key: ${__PASSWORD__}" \
+  -H "Content-Type: application/json" \
+  | python -c "import sys, json; print json.load(sys.stdin)['result'][0]['id']")
+__RECID__=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/${__ZONE_ID__}/dns_records?name=${__HOSTNAME__}" \
+  -H "X-Auth-Email: ${__USERNAME__}" \
+  -H "X-Auth-Key: ${__PASSWORD__}" \
+  -H "Content-Type: application/json" \
+  | python -c "import sys, json; print json.load(sys.stdin)['result'][0]['id']")
 __TTL__="1"
 __PROXY__="true"
+
+echo $__ZONE_ID__
 
 log() {
     __LOGTIME__=$(date +"%b %e %T")
@@ -44,10 +56,10 @@ __RESPONSE__=$(curl -s -X PUT "${__URL__}" \
      --data "{\"type\":\"${__RECTYPE__}\",\"name\":\"${__HOSTNAME__}\",\"content\":\"${__MYIP__}\",\"ttl\":${__TTL__},\"proxied\":${__PROXY__}}")
 
 # Strip the result element from response json
-__RESULT__=$(echo ${__RESPONSE__} | grep -Po '"success":\K.*?[^\\],')
+__RESULT__=$(echo ${__RESPONSE__} | python -c "import sys, json; print json.load(sys.stdin)['success']")
 echo ${__RESPONSE__}
 case ${__RESULT__} in
-    'true,')
+    'true')
         __STATUS__='good'
         true
         ;;

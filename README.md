@@ -1,5 +1,7 @@
 # Synology Cloudflare DDNS Script 📜
-The is a script to be used to add [Cloudflare](https://www.cloudflare.com/) as a DDNS to [Synology](https://www.synology.com/) NAS. This is a modified version [script](https://gist.github.com/tehmantra/f1d2579f3c922e8bb4a0) from [Michael Wildman](https://gist.github.com/tehmantra). The script used an updated API, Cloudflare API v4.
+The is a script to be used to add [Cloudflare](https://www.cloudflare.com/) as a DDNS to [Synology](https://www.synology.com/) NAS. 
+This is a modified version [script](https://gist.github.com/tehmantra/f1d2579f3c922e8bb4a0) from [Michael Wildman](https://gist.github.com/tehmantra). 
+The script uses updated API, Cloudflare API v4.
 
 ## How to use
 ### Access Synology via SSH
@@ -11,13 +13,13 @@ The is a script to be used to add [Cloudflare](https://www.cloudflare.com/) as a
 ### Run commands in Synology
 1. Download `cloudflareddns.sh` from this repository to `/sbin/cloudflaredns.sh`
 ```
-wget https://raw.githubusercontent.com/joshuaavalon/SynologyCloudflareDDNS/master/cloudflareddns.sh -O /sbin/cloudflaredns.sh
+wget https://raw.githubusercontent.com/dvershinin/SynologyCloudflareDDNS/master/cloudflareddns.sh -O /sbin/cloudflaredns.sh
 ```
 It is not a must, you can put I whatever you want. If you put the script in other name or path, make sure you use the right path.
 
 2. Give others execute permission
 ```
-chmod +x /sbin/cloudflaredns.sh
+chmod 755 /sbin/cloudflaredns.sh
 ```
 
 3. Add `cloudflareddns.sh` to Synology
@@ -31,16 +33,8 @@ E*.
 `queryurl` does not matter because we are going to use our script but it is needed.
 
 ### Get Cloudflare parameters
-1. Go to your domain overview page and get the **Zone ID**.
-2. Go to your [account setting page](https://www.cloudflare.com/a/account/my-account) and get **API Key**.
-3. Get record id using Cloudflare API.
-```
-curl -X GET "https://api.cloudflare.com/client/v4/zones/[Zone ID]/dns_records" \
-     -H "X-Auth-Email: [Email]" \
-     -H "X-Auth-Key: [API Key]" \
-     -H "Content-Type: application/json"
-```
-You need to replace with [] with your parameter. Then, you get the `id` in `result` which is you **Record ID**.
+
+Go to your [account setting page](https://www.cloudflare.com/a/account/my-account) and get **API Key**.
 
 ### Setup DDNS
 1. Enter the parameters to the `cloudflareddns.sh`.
