@@ -13,7 +13,7 @@ The script uses updated API, Cloudflare API v4.
 ### Run commands in Synology
 1. Download `cloudflareddns.sh` from this repository to `/sbin/cloudflaredns.sh`
 ```
-wget https://raw.githubusercontent.com/dvershinin/SynologyCloudflareDDNS/master/cloudflareddns.sh -O /sbin/cloudflaredns.sh
+wget https://raw.githubusercontent.com/dvershinin/SynologyCloudflareDDNS/master/cloudflareddns.sh -O /sbin/cloudflareddns.sh
 ```
 It is not a must, you can put I whatever you want. If you put the script in other name or path, make sure you use the right path.
 
@@ -26,11 +26,21 @@ chmod 755 /sbin/cloudflaredns.sh
 ```
 cat >> /etc.defaults/ddns_provider.conf << 'EOF'
 [Cloudflare]
-        modulepath=/sbin/cloudflaredns.sh
+        modulepath=/sbin/cloudflareddns.sh
         queryurl=https://www.cloudflare.com/
 E*.
 ```
 `queryurl` does not matter because we are going to use our script but it is needed.
+
+4. Add `tldextract` Python module
+
+Ths module will help us automatically fetch parent domain:
+
+```
+wget https://bootstrap.pypa.io/get-pip.py
+python get-pip.py
+pip install tldextract
+```
 
 ### Get Cloudflare parameters
 
