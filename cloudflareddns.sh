@@ -15,7 +15,7 @@ __RECTYPE__="A"
 # "rev" command is not available in Synology boxes
 # __ZONE_DOMAIN__=$(echo "${__HOSTNAME__}" | rev | cut -d '.' -f 1,2 | rev)
 # and we want to use something more reliable which will deal with things like .co.uk properly
-__ZONE_DOMAIN__=$(echo "${__HOSTNAME__}" | python -c "import tldextract; tldextract.extract(sys.stdin).registered_domain")
+__ZONE_DOMAIN__=$(echo "${__HOSTNAME__}" | python -c "import sys, tldextract; print tldextract.extract(sys.stdin.readline()).registered_domain")
 __ZONE_ID__=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones?name=${__ZONE_DOMAIN__}" \
   -H "X-Auth-Email: ${__USERNAME__}" \
   -H "X-Auth-Key: ${__PASSWORD__}" \
