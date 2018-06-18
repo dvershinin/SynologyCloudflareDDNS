@@ -29,8 +29,6 @@ __RECID__=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/${__ZONE_
 __TTL__="1"
 __PROXY__="true"
 
-echo $__ZONE_ID__
-
 log() {
     __LOGTIME__=$(date +"%b %e %T")
     if [ "${#}" -lt 1 ]; then
@@ -60,9 +58,9 @@ __RESPONSE__=$(curl -s -X PUT "${__URL__}" \
 
 # Strip the result element from response json
 __RESULT__=$(echo ${__RESPONSE__} | python -c "import sys, json; print json.load(sys.stdin)['success']")
-echo ${__RESPONSE__}
+
 case ${__RESULT__} in
-    'true')
+    'True')
         __STATUS__='good'
         true
         ;;
