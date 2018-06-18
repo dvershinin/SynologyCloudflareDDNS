@@ -23,9 +23,9 @@ chmod 755 /sbin/cloudflaredns.sh
 ```
 
 3. Add `cloudflareddns.sh` to Synology
-```
-cat >> /etc.defaults/ddns_provider.conf << 'EOF'
-[Cloudflare]
+```bash
+cat >> /etc/ddns_provider.conf << 'EOF'
+[USER_Cloudflare]
         modulepath=/sbin/cloudflareddns.sh
         queryurl=https://www.cloudflare.com/
 E*.
@@ -36,7 +36,7 @@ E*.
 
 Ths module will help us automatically fetch parent domain:
 
-```
+```bash
 wget https://bootstrap.pypa.io/get-pip.py
 python get-pip.py
 pip install tldextract
