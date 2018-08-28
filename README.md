@@ -11,22 +11,22 @@ The script uses updated API, Cloudflare API v4.
 4. Use your Synology admin account to connect.
 
 ### Run commands in Synology
-1. Download `cloudflareddns.sh` from this repository to `/sbin/cloudflaredns.sh`
+1. Download `cloudflareddns.sh` from this repository to `/usr/local/sbin/cloudflareddns.sh`
 ```
-wget https://raw.githubusercontent.com/dvershinin/SynologyCloudflareDDNS/master/cloudflareddns.sh -O /sbin/cloudflareddns.sh
+curl https://raw.githubusercontent.com/dvershinin/SynologyCloudflareDDNS/master/cloudflareddns.sh -o /usr/local/sbin/cloudflareddns.sh
 ```
 It is not a must, you can put I whatever you want. If you put the script in other name or path, make sure you use the right path.
 
 2. Give others execute permission
 ```
-chmod 755 /sbin/cloudflaredns.sh
+chmod 755 /usr/local/sbin/cloudflareddns.sh
 ```
 
 3. Add `cloudflareddns.sh` to Synology
 ```bash
 cat >> /etc/ddns_provider.conf << 'EOF'
 [USER_Cloudflare]
-        modulepath=/sbin/cloudflareddns.sh
+        modulepath=/usr/local/sbin/cloudflareddns.sh
         queryurl=https://www.cloudflare.com/
 E*.
 ```
@@ -47,10 +47,10 @@ pip install tldextract
 Go to your [account setting page](https://www.cloudflare.com/a/account/my-account) and get **API Key**.
 
 ### Setup DDNS
-1. Enter the parameters to the `cloudflareddns.sh`.
-2. Login to your DSM
-3. Go to Control Panel > External Access > DDNS > Add
-4. Select Cloudflare as service provider. Enter your domain as hostname, your Cloudflare account as Username/Email, and API key as Password/Key
+
+1. Login to your DSM
+2. Go to Control Panel > External Access > DDNS > Add
+3. Select Cloudflare as service provider. Enter your domain as hostname, your Cloudflare account as Username/Email, and API key as Password/Key
 
 ## Parameters
 ### \_\_USERNAME\_\_, \_\_PASSWORD\_\_, \_\_HOSTNAME\_\_, \_\_MYIP\_\_
